@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sektor-Heatmap</title>
+<link rel="stylesheet" href="stil.css">
+</head>
+<body>
+<header class="kopf">
+  <div>
+    <h1>Sektor-Heatmap</h1>
+    <p class="stand" id="stand">Lade Stand …</p>
+  </div>
+  <div class="kopf-rechts">
+    <span class="meldung" id="meldung" role="status"></span>
+    <button type="button" id="aktualisieren">Aktualisieren</button>
+  </div>
+</header>
+<div class="ladebalken" id="ladebalken" hidden>
+  <div class="ladebalken-spur" role="progressbar" aria-label="Fortschritt beim Aktualisieren"
+       aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="ladebalken-spur">
+    <div class="ladebalken-fuellung" id="ladebalken-fuellung"></div>
+  </div>
+  <p class="ladebalken-text" id="ladebalken-text"></p>
+</div>
+
+<main>
+  <p class="hinweis">
+    Kursentwicklung je Sektor in Prozent, inklusive Ausschüttungen, jeweils in der Währung der
+    Fonds. Jeder Wert ist der Median der Indexfonds dazu, meist mehrerer Anbieter – die Zahl steht
+    neben dem Namen.
+    Die Farbe ist je Zeitraum über beide Regionen gleich skaliert. Ein Klick auf eine
+    Spaltenüberschrift sortiert alle Tabellen, ein Klick auf die erste Spalte stellt die
+    Reihenfolge zurück. Während der Börsenzeit ist der letzte Kurs ein laufender Kurs.
+  </p>
+
+  <div class="karten" id="karten"></div>
+
+  <div class="legende" id="legende" aria-hidden="true">
+    <span>Verlust</span><span class="verlauf"></span><span>Gewinn</span>
+    <span class="legende-zeichen"><i class="punkt"></i> Fonds liegen deutlich auseinander</span>
+    <span class="legende-zeichen"><i class="ring"></i> ein Fonds als Ausreißer nicht gezählt</span>
+  </div>
+
+  <section class="aktien-bereich" aria-labelledby="aktien-titel">
+    <h2 class="gruppe" id="aktien-titel">Beste Aktien der vier stärksten Sektoren</h2>
+    <p class="gruppen-hinweis" id="aktien-hinweis"></p>
+    <div class="zeitraum-wahl" id="zeitraum-wahl" role="group" aria-label="Rangfolge nach Zeitraum"></div>
+    <div class="karten-reihe" id="aktien"></div>
+  </section>
+
+  <section class="aktien-bereich" aria-labelledby="top-titel">
+    <h2 class="gruppe" id="top-titel">Top 30 Aktien je Region und Index</h2>
+    <p class="gruppen-hinweis" id="top-hinweis"></p>
+    <div class="zeitraum-wahl" id="top-wahl" role="group" aria-label="Rangfolge der Top 30"></div>
+    <div class="karten-reihe" id="top"></div>
+  </section>
+
+  <details class="grundlage">
+    <summary>Datengrundlage: alle Fonds und Aktien mit Herkunft</summary>
+    <div id="grundlage"></div>
+  </details>
+</main>
+
+<div class="tipp" id="tipp" role="tooltip" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

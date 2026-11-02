@@ -1,0 +1,286 @@
+{
+  "hinweis": "Je Sektor mehrere Indexfonds verschiedener Anbieter. Der Wert eines Sektors ist der Median der Fonds. Alle Kürzel am 12.10.2026 bei Yahoo geprüft (Name und Kursreihe über ein Jahr). Herausgenommen: XS8R.DE (Xtrackers MSCI Europe Information Technology) – die Kursreihe bei Yahoo läuft seit Januar 2026 um rund 60 Prozentpunkte gegen die beiden anderen Fonds auf denselben Index. Am 12.10.2026 ergänzt: Amundi-Fonds (Paris) als weitere Quelle für sieben europäische Sektoren sowie je Region die Liste „themen“ (Branchen und Themen).",
+  "regionen": [
+    {
+      "schluessel": "europa",
+      "name": "Europa",
+      "waehrung": "Euro",
+      "boerse": "Xetra und Paris",
+      "gesamtmarkt": {"ticker": "EXSA.DE", "name": "iShares STOXX Europe 600"},
+      "sektoren": [
+        {"name": "Technologie", "fonds": [
+          {"ticker": "SPYK.DE", "name": "SPDR MSCI Europe Technology"},
+          {"ticker": "ESIT.DE", "name": "iShares MSCI Europe Information Technology"},
+          {"ticker": "EXV3.DE", "name": "iShares STOXX Europe 600 Technology"},
+          {"ticker": "TNO.PA", "name": "Amundi STOXX Europe 600 Technology"}
+        ]},
+        {"name": "Gesundheit", "fonds": [
+          {"ticker": "SPYH.DE", "name": "SPDR MSCI Europe Health Care"},
+          {"ticker": "ESIH.DE", "name": "iShares MSCI Europe Health Care"},
+          {"ticker": "DXSE.DE", "name": "Xtrackers MSCI Europe Health Care"},
+          {"ticker": "EXV4.DE", "name": "iShares STOXX Europe 600 Health Care"},
+          {"ticker": "HLT.PA", "name": "Amundi STOXX Europe 600 Healthcare"}
+        ]},
+        {"name": "Finanzen", "fonds": [
+          {"ticker": "SPYZ.DE", "name": "SPDR MSCI Europe Financials"},
+          {"ticker": "ESIF.DE", "name": "iShares MSCI Europe Financials"},
+          {"ticker": "XS7R.DE", "name": "Xtrackers MSCI Europe Financials"}
+        ]},
+        {"name": "Zyklischer Konsum", "fonds": [
+          {"ticker": "SPYR.DE", "name": "SPDR MSCI Europe Consumer Discretionary"},
+          {"ticker": "ESIC.DE", "name": "iShares MSCI Europe Consumer Discretionary"},
+          {"ticker": "TRV.PA", "name": "Amundi STOXX Europe 600 Consumer Discretionary"}
+        ]},
+        {"name": "Basiskonsum", "fonds": [
+          {"ticker": "SPYC.DE", "name": "SPDR MSCI Europe Consumer Staples"},
+          {"ticker": "ESIS.DE", "name": "iShares MSCI Europe Consumer Staples"},
+          {"ticker": "DXSK.DE", "name": "Xtrackers MSCI Europe Consumer Staples"},
+          {"ticker": "FOO.PA", "name": "Amundi STOXX Europe 600 Consumer Staples"}
+        ]},
+        {"name": "Energie", "fonds": [
+          {"ticker": "SPYN.DE", "name": "SPDR MSCI Europe Energy"},
+          {"ticker": "ESIE.DE", "name": "iShares MSCI Europe Energy"},
+          {"ticker": "EXH1.DE", "name": "iShares STOXX Europe 600 Oil & Gas"}
+        ]},
+        {"name": "Industrie", "fonds": [
+          {"ticker": "SPYQ.DE", "name": "SPDR MSCI Europe Industrials"},
+          {"ticker": "ESIN.DE", "name": "iShares MSCI Europe Industrials"},
+          {"ticker": "DXSL.DE", "name": "Xtrackers MSCI Europe Industrials"},
+          {"ticker": "IND.PA", "name": "Amundi STOXX Europe 600 Industrials"}
+        ]},
+        {"name": "Grundstoffe", "fonds": [
+          {"ticker": "SPYP.DE", "name": "SPDR MSCI Europe Materials"},
+          {"ticker": "DXSC.DE", "name": "Xtrackers MSCI Europe Materials"},
+          {"ticker": "CHM.PA", "name": "Amundi STOXX Europe 600 Basic Materials"}
+        ]},
+        {"name": "Versorger", "fonds": [
+          {"ticker": "SPYU.DE", "name": "SPDR MSCI Europe Utilities"},
+          {"ticker": "XS6R.DE", "name": "Xtrackers MSCI Europe Utilities"},
+          {"ticker": "EXH9.DE", "name": "iShares STOXX Europe 600 Utilities"},
+          {"ticker": "UTI.PA", "name": "Amundi STOXX Europe 600 Utilities"}
+        ]},
+        {"name": "Immobilien", "fonds": [
+          {"ticker": "EXI5.DE", "name": "iShares STOXX Europe 600 Real Estate"},
+          {"ticker": "IQQP.DE", "name": "iShares European Property Yield"},
+          {"ticker": "D5BK.DE", "name": "Xtrackers FTSE Developed Europe Real Estate"}
+        ]},
+        {"name": "Kommunikation", "fonds": [
+          {"ticker": "SPYT.DE", "name": "SPDR MSCI Europe Communication Services"},
+          {"ticker": "DXSG.DE", "name": "Xtrackers MSCI Europe Communication Services"}
+        ]}
+      ],
+      "themen": [
+        {"name": "Banken", "fonds": [
+          {"ticker": "EXV1.DE", "name": "iShares STOXX Europe 600 Banks"},
+          {"ticker": "LBNK.DE", "name": "Amundi STOXX Europe 600 Banks"}
+        ]},
+        {"name": "Versicherungen", "fonds": [
+          {"ticker": "EXH5.DE", "name": "iShares STOXX Europe 600 Insurance"},
+          {"ticker": "LIRU.DE", "name": "Amundi STOXX Europe 600 Insurance"}
+        ]},
+        {"name": "Finanzdienstleister", "fonds": [
+          {"ticker": "EXH2.DE", "name": "iShares STOXX Europe 600 Financial Services"}
+        ]},
+        {"name": "Rüstung", "fonds": [
+          {"ticker": "EUDF.DE", "name": "WisdomTree Europe Defence"},
+          {"ticker": "DFNC.DE", "name": "iShares Europe Defence"}
+        ]},
+        {"name": "Automobile und Zulieferer", "fonds": [
+          {"ticker": "EXV5.DE", "name": "iShares STOXX Europe 600 Automobiles & Parts"}
+        ]},
+        {"name": "Chemie", "fonds": [
+          {"ticker": "EXV7.DE", "name": "iShares STOXX Europe 600 Chemicals"}
+        ]},
+        {"name": "Rohstoffe", "fonds": [
+          {"ticker": "EXV6.DE", "name": "iShares STOXX Europe 600 Basic Resources"},
+          {"ticker": "BRES.PA", "name": "Amundi STOXX Europe 600 Basic Resources"}
+        ]},
+        {"name": "Bau und Baustoffe", "fonds": [
+          {"ticker": "EXV8.DE", "name": "iShares STOXX Europe 600 Construction & Materials"}
+        ]},
+        {"name": "Industriegüter und Dienstleistungen", "fonds": [
+          {"ticker": "EXH4.DE", "name": "iShares STOXX Europe 600 Industrial Goods & Services"}
+        ]},
+        {"name": "Telekommunikation", "fonds": [
+          {"ticker": "EXV2.DE", "name": "iShares STOXX Europe 600 Telecommunications"},
+          {"ticker": "TELE.PA", "name": "Amundi STOXX Europe 600 Telecommunications"}
+        ]},
+        {"name": "Medien", "fonds": [
+          {"ticker": "EXH6.DE", "name": "iShares STOXX Europe 600 Media"}
+        ]},
+        {"name": "Reisen und Freizeit", "fonds": [
+          {"ticker": "EXV9.DE", "name": "iShares STOXX Europe 600 Travel & Leisure"}
+        ]},
+        {"name": "Einzelhandel", "fonds": [
+          {"ticker": "EXH8.DE", "name": "iShares STOXX Europe 600 Retail"}
+        ]},
+        {"name": "Lebensmittel und Getränke", "fonds": [
+          {"ticker": "EXH3.DE", "name": "iShares STOXX Europe 600 Food & Beverage"}
+        ]},
+        {"name": "Haushalt und Körperpflege", "fonds": [
+          {"ticker": "EXH7.DE", "name": "iShares STOXX Europe 600 Personal & Household Goods"}
+        ]}
+      ]
+    },
+    {
+      "schluessel": "usa",
+      "name": "USA",
+      "waehrung": "US-Dollar",
+      "boerse": "New York",
+      "gesamtmarkt": {"ticker": "SPY", "name": "SPDR S&P 500"},
+      "sektoren": [
+        {"name": "Technologie", "fonds": [
+          {"ticker": "XLK", "name": "Technology Select Sector SPDR"},
+          {"ticker": "VGT", "name": "Vanguard Information Technology"},
+          {"ticker": "FTEC", "name": "Fidelity MSCI Information Technology"}
+        ]},
+        {"name": "Gesundheit", "fonds": [
+          {"ticker": "XLV", "name": "Health Care Select Sector SPDR"},
+          {"ticker": "VHT", "name": "Vanguard Health Care"},
+          {"ticker": "FHLC", "name": "Fidelity MSCI Health Care"}
+        ]},
+        {"name": "Finanzen", "fonds": [
+          {"ticker": "XLF", "name": "Financial Select Sector SPDR"},
+          {"ticker": "VFH", "name": "Vanguard Financials"},
+          {"ticker": "FNCL", "name": "Fidelity MSCI Financials"}
+        ]},
+        {"name": "Zyklischer Konsum", "fonds": [
+          {"ticker": "XLY", "name": "Consumer Discretionary Select Sector SPDR"},
+          {"ticker": "VCR", "name": "Vanguard Consumer Discretionary"},
+          {"ticker": "FDIS", "name": "Fidelity MSCI Consumer Discretionary"}
+        ]},
+        {"name": "Basiskonsum", "fonds": [
+          {"ticker": "XLP", "name": "Consumer Staples Select Sector SPDR"},
+          {"ticker": "VDC", "name": "Vanguard Consumer Staples"},
+          {"ticker": "FSTA", "name": "Fidelity MSCI Consumer Staples"}
+        ]},
+        {"name": "Energie", "fonds": [
+          {"ticker": "XLE", "name": "Energy Select Sector SPDR"},
+          {"ticker": "VDE", "name": "Vanguard Energy"},
+          {"ticker": "FENY", "name": "Fidelity MSCI Energy"}
+        ]},
+        {"name": "Industrie", "fonds": [
+          {"ticker": "XLI", "name": "Industrial Select Sector SPDR"},
+          {"ticker": "VIS", "name": "Vanguard Industrials"},
+          {"ticker": "FIDU", "name": "Fidelity MSCI Industrials"}
+        ]},
+        {"name": "Grundstoffe", "fonds": [
+          {"ticker": "XLB", "name": "Materials Select Sector SPDR"},
+          {"ticker": "VAW", "name": "Vanguard Materials"},
+          {"ticker": "FMAT", "name": "Fidelity MSCI Materials"}
+        ]},
+        {"name": "Versorger", "fonds": [
+          {"ticker": "XLU", "name": "Utilities Select Sector SPDR"},
+          {"ticker": "VPU", "name": "Vanguard Utilities"},
+          {"ticker": "FUTY", "name": "Fidelity MSCI Utilities"}
+        ]},
+        {"name": "Immobilien", "fonds": [
+          {"ticker": "XLRE", "name": "Real Estate Select Sector SPDR"},
+          {"ticker": "VNQ", "name": "Vanguard Real Estate"},
+          {"ticker": "FREL", "name": "Fidelity MSCI Real Estate"}
+        ]},
+        {"name": "Kommunikation", "fonds": [
+          {"ticker": "XLC", "name": "Communication Services Select Sector SPDR"},
+          {"ticker": "VOX", "name": "Vanguard Communication Services"},
+          {"ticker": "FCOM", "name": "Fidelity MSCI Communication Services"}
+        ]}
+      ],
+      "themen": [
+        {"name": "Halbleiter", "fonds": [
+          {"ticker": "SOXX", "name": "iShares Semiconductor"},
+          {"ticker": "SMH", "name": "VanEck Semiconductor"},
+          {"ticker": "XSD", "name": "SPDR S&P Semiconductor"},
+          {"ticker": "FTXL", "name": "First Trust Nasdaq Semiconductor"}
+        ]},
+        {"name": "Künstliche Intelligenz", "fonds": [
+          {"ticker": "AIQ", "name": "Global X Artificial Intelligence & Technology"},
+          {"ticker": "ARTY", "name": "iShares Future AI & Tech"},
+          {"ticker": "CHAT", "name": "Roundhill Generative AI & Technology"},
+          {"ticker": "IGPT", "name": "Invesco AI and Next Gen Software"}
+        ]},
+        {"name": "Robotik und Automatisierung", "fonds": [
+          {"ticker": "BOTZ", "name": "Global X Robotics & Artificial Intelligence"},
+          {"ticker": "ROBO", "name": "Robo Global Robotics and Automation"}
+        ]},
+        {"name": "Cybersecurity", "fonds": [
+          {"ticker": "CIBR", "name": "First Trust Nasdaq Cybersecurity"},
+          {"ticker": "HACK", "name": "Amplify Cybersecurity"},
+          {"ticker": "BUG", "name": "Global X Cybersecurity"},
+          {"ticker": "IHAK", "name": "iShares Cybersecurity and Tech"}
+        ]},
+        {"name": "Software", "fonds": [
+          {"ticker": "IGV", "name": "iShares Expanded Tech-Software"},
+          {"ticker": "XSW", "name": "SPDR S&P Software & Services"}
+        ]},
+        {"name": "Cloud", "fonds": [
+          {"ticker": "SKYY", "name": "First Trust Cloud Computing"},
+          {"ticker": "WCLD", "name": "WisdomTree Cloud Computing"},
+          {"ticker": "CLOU", "name": "Global X Cloud Computing"}
+        ]},
+        {"name": "Finanztechnologie", "fonds": [
+          {"ticker": "FINX", "name": "Global X FinTech"},
+          {"ticker": "ARKF", "name": "ARK Blockchain & Fintech Innovation"}
+        ]},
+        {"name": "Biotechnologie", "fonds": [
+          {"ticker": "IBB", "name": "iShares Biotechnology"},
+          {"ticker": "XBI", "name": "SPDR S&P Biotech"},
+          {"ticker": "FBT", "name": "First Trust NYSE Arca Biotechnology"}
+        ]},
+        {"name": "Medizintechnik", "fonds": [
+          {"ticker": "IHI", "name": "iShares U.S. Medical Devices"},
+          {"ticker": "XHE", "name": "SPDR S&P Health Care Equipment"}
+        ]},
+        {"name": "Rüstung, Luft- und Raumfahrt", "fonds": [
+          {"ticker": "ITA", "name": "iShares U.S. Aerospace & Defense"},
+          {"ticker": "XAR", "name": "SPDR S&P Aerospace & Defense"},
+          {"ticker": "PPA", "name": "Invesco Aerospace & Defense"}
+        ]},
+        {"name": "Banken", "fonds": [
+          {"ticker": "KBE", "name": "SPDR S&P Bank"},
+          {"ticker": "KRE", "name": "SPDR S&P Regional Banking"},
+          {"ticker": "IAT", "name": "iShares U.S. Regional Banks"}
+        ]},
+        {"name": "Saubere Energie", "fonds": [
+          {"ticker": "ICLN", "name": "iShares Global Clean Energy"},
+          {"ticker": "QCLN", "name": "First Trust Nasdaq Clean Edge Green Energy"},
+          {"ticker": "PBW", "name": "Invesco WilderHill Clean Energy"}
+        ]},
+        {"name": "Uran und Kernenergie", "fonds": [
+          {"ticker": "URA", "name": "Global X Uranium"},
+          {"ticker": "URNM", "name": "Sprott Uranium Miners"},
+          {"ticker": "NLR", "name": "VanEck Uranium and Nuclear"}
+        ]},
+        {"name": "Öl- und Gasförderung", "fonds": [
+          {"ticker": "XOP", "name": "SPDR S&P Oil & Gas Exploration & Production"},
+          {"ticker": "IEO", "name": "iShares U.S. Oil & Gas Exploration & Production"},
+          {"ticker": "PXE", "name": "Invesco Energy Exploration & Production"}
+        ]},
+        {"name": "Goldminen", "fonds": [
+          {"ticker": "GDX", "name": "VanEck Gold Miners"},
+          {"ticker": "RING", "name": "iShares MSCI Global Gold Miners"},
+          {"ticker": "SGDM", "name": "Sprott Gold Miners"}
+        ]},
+        {"name": "Lithium und Batterien", "fonds": [
+          {"ticker": "LIT", "name": "Global X Lithium & Battery Tech"},
+          {"ticker": "BATT", "name": "Amplify Lithium & Battery Technology"}
+        ]},
+        {"name": "Infrastruktur", "fonds": [
+          {"ticker": "PAVE", "name": "Global X U.S. Infrastructure Development"},
+          {"ticker": "IFRA", "name": "iShares U.S. Infrastructure"}
+        ]},
+        {"name": "Hausbau", "fonds": [
+          {"ticker": "ITB", "name": "iShares U.S. Home Construction"},
+          {"ticker": "XHB", "name": "SPDR S&P Homebuilders"}
+        ]},
+        {"name": "Einzelhandel", "fonds": [
+          {"ticker": "XRT", "name": "SPDR S&P Retail"},
+          {"ticker": "RTH", "name": "VanEck Retail"}
+        ]},
+        {"name": "Transport", "fonds": [
+          {"ticker": "IYT", "name": "iShares Transportation Average"},
+          {"ticker": "XTN", "name": "SPDR S&P Transportation"}
+        ]}
+      ]
+    }
+  ]
+}

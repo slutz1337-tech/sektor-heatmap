@@ -1,0 +1,58 @@
+# Sektor-Heatmap: Kurse holen und die Seite neu veröffentlichen.
+# An Börsentagen stündlich (6:17 bis 21:17 Uhr UTC = 7:17 bis 22:17 Uhr deutsche Winterzeit),
+# dazu von Hand über „Run workflow“ im Reiter „Actions“.
+name: Sektor-Heatmap aktualisieren
+
+on:
+  schedule:
+    - cron: "17 6-21 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bauen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.veroeffentlichen.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Monat bestimmen
+        id: monat
+        run: echo "monat=$(date +%Y-%m)" >> "$GITHUB_OUTPUT"
+
+      # Mitgliederlisten der Indizes werden einmal im Monat neu geladen
+      - uses: actions/cache@v4
+        with:
+          path: ablage/mitglieder.json
+          key: mitglieder-${{ steps.monat.outputs.monat }}
+          restore-keys: mitglieder-
+
+      - name: Kurse holen und Seite bauen
+        env:
+          SEKTOR_ABLAGE: ablage
+        run: python export.py --neu --web --ziel _site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: veroeffentlichen
+        uses: actions/deploy-pages@v4

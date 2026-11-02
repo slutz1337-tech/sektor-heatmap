@@ -1,0 +1,144 @@
+/* Sektor-Heatmap – eigene Gestaltung, vom Styleguide Dark entbunden (12.10.2026). */
+:root {
+  --grund: #0d1014;
+  --flaeche: #151a21;
+  --linie: #262d37;
+  --text: #e8ecf1;
+  --text-2: #98a2b0;
+  --akzent: #4c8dff;
+  --gewinn: 46, 190, 120;    /* als RGB-Teile, damit die Deckkraft im Skript wählbar ist */
+  --verlust: 230, 80, 80;
+  --neutral: #1c222b;
+  --runde: 6px;
+  --schrift: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--grund); color: var(--text); font-family: var(--schrift); font-size: 15px; }
+
+.kopf {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;
+  padding: 20px 24px 16px; border-bottom: 1px solid var(--linie);
+}
+.kopf h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: .2px; }
+.stand { margin: 4px 0 0; color: var(--text-2); font-size: 13px; }
+.kopf-rechts { display: flex; align-items: center; gap: 12px; }
+.meldung { color: var(--text-2); font-size: 13px; }
+.meldung.fehler { color: rgb(var(--verlust)); }
+
+button {
+  font: inherit; color: #fff; background: var(--akzent); border: 0; border-radius: var(--runde);
+  padding: 8px 16px; cursor: pointer;
+}
+button:hover { filter: brightness(1.1); }
+button:disabled { opacity: .55; cursor: progress; }
+button:focus-visible, .zelle:focus-visible, th button:focus-visible { outline: 2px solid var(--akzent); outline-offset: 2px; }
+
+main { max-width: 1500px; margin: 0 auto; padding: 16px 24px 40px; }
+.hinweis { color: var(--text-2); font-size: 13px; line-height: 1.5; max-width: 110ch; margin: 0 0 16px; }
+
+.karten-reihe { display: grid; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); gap: 20px; align-items: start; }
+h2.gruppe { font-size: 16px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: .8px; margin: 28px 0 10px; }
+h2.gruppe:first-child { margin-top: 4px; }
+.gruppen-hinweis { color: var(--text-2); font-size: 12.5px; margin: -4px 0 12px; max-width: 120ch; line-height: 1.5; }
+@media (max-width: 680px) { .karten-reihe { grid-template-columns: 1fr; } main, .kopf { padding-left: 12px; padding-right: 12px; } }
+
+.karte { background: var(--flaeche); border: 1px solid var(--linie); border-radius: 10px; padding: 16px; min-width: 0; }
+.karte h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.karte .unterzeile { color: var(--text-2); font-size: 12px; margin: 2px 0 12px; }
+.tabelle-rahmen { overflow-x: auto; }
+
+table { width: 100%; min-width: 600px; border-collapse: separate; border-spacing: 3px; table-layout: fixed; }
+th { font-weight: 500; font-size: 12px; color: var(--text-2); text-align: center; padding: 0 0 4px; }
+th:first-child { text-align: left; width: 30%; }
+th button {
+  background: none; color: inherit; padding: 4px 2px; border-radius: 4px; font-size: 12px; width: 100%;
+}
+th button:hover { color: var(--text); background: var(--neutral); filter: none; }
+th button[aria-sort="descending"]::after { content: " ▼"; }
+th button[aria-sort="ascending"]::after { content: " ▲"; }
+th:first-child button { text-align: left; }
+
+td.name { font-size: 14px; line-height: 1.2; padding: 2px 6px 2px 2px; overflow-wrap: anywhere; }
+td.name small { color: var(--text-2); font-size: 11px; margin-left: 4px; white-space: nowrap; }
+th button { hyphens: manual; overflow-wrap: normal; }
+.zelle {
+  position: relative; text-align: center; font-variant-numeric: tabular-nums; font-size: 13px; white-space: nowrap;
+  height: 38px; min-width: 0; border-radius: 4px; background: var(--neutral); cursor: default;
+  transition: background-color .4s ease;
+}
+.zelle.leer { color: var(--text-2); }
+.zelle .punkt, .zelle .ring { position: absolute; top: 4px; right: 4px; }
+.punkt, .ring { display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
+.punkt { background: #f5c451; }
+.ring { border: 1.5px solid #f5c451; width: 7px; height: 7px; }
+.zelle .punkt + .ring { right: 13px; }
+tr.gesamt td { border-top: 1px solid var(--linie); }
+tr.gesamt td.name { color: var(--text-2); font-style: italic; }
+tr.gesamt .zelle { outline: 1px dashed var(--linie); }
+
+.legende { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 16px 0; color: var(--text-2); font-size: 12px; }
+.verlauf { width: 220px; height: 10px; border-radius: 5px;
+  background: linear-gradient(90deg, rgba(var(--verlust), .95), var(--neutral), rgba(var(--gewinn), .95)); }
+.legende-zeichen { display: inline-flex; align-items: center; gap: 6px; margin-left: 12px; }
+
+.grundlage { margin-top: 8px; background: var(--flaeche); border: 1px solid var(--linie); border-radius: 10px; padding: 12px 16px; }
+.grundlage summary { cursor: pointer; color: var(--text-2); }
+.grundlage h3 { font-size: 14px; margin: 16px 0 6px; }
+.grundlage table { border-spacing: 0; table-layout: auto; font-size: 13px; }
+.grundlage td, .grundlage th { padding: 4px 8px; text-align: left; border-bottom: 1px solid var(--linie); }
+.grundlage .warnung { color: #f5c451; }
+
+.tipp {
+  position: fixed; z-index: 10; pointer-events: none; max-width: 360px;
+  background: #0a0c10; border: 1px solid var(--linie); border-radius: 8px; padding: 10px 12px;
+  font-size: 12.5px; line-height: 1.45; box-shadow: 0 8px 24px rgba(0,0,0,.5);
+}
+.tipp strong { font-size: 13.5px; }
+.tipp .wert { font-size: 18px; font-weight: 600; margin: 4px 0; font-variant-numeric: tabular-nums; }
+.tipp table { border-spacing: 0; width: 100%; margin-top: 6px; table-layout: auto; }
+.tipp td { padding: 2px 0; font-variant-numeric: tabular-nums; }
+.tipp td:last-child { text-align: right; padding-left: 12px; white-space: nowrap; }
+.tipp .aus { color: var(--text-2); text-decoration: line-through; }
+.tipp .grau { color: var(--text-2); }
+
+/* ---------- Beste Aktien ---------- */
+.aktien-bereich { margin-top: 8px; }
+.zeitraum-wahl { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 14px; }
+.zeitraum-wahl span { color: var(--text-2); font-size: 13px; margin-right: 6px; }
+.zeitraum-wahl button { background: var(--flaeche); color: var(--text); border: 1px solid var(--linie); padding: 6px 12px; font-size: 13px; }
+.zeitraum-wahl button:hover { filter: none; border-color: var(--akzent); }
+.zeitraum-wahl button[aria-pressed="true"] { background: var(--akzent); border-color: var(--akzent); color: #fff; }
+.aktien-block + .aktien-block { margin-top: 18px; }
+.aktien-block h3 { font-size: 15px; font-weight: 600; margin: 4px 0 8px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.aktien-block .platz { color: var(--text-2); }
+.aktien-block .sektorwert { color: var(--text-2); font-weight: 400; font-size: 12px; }
+.aktien-tabelle th.rang, .aktien-tabelle td.rang { width: 46px; text-align: center; color: var(--text-2); font-size: 12px; }
+.aktien-tabelle th:nth-child(2) { text-align: left; width: 28%; }
+.aktien-tabelle td.name { font-size: 13px; }
+.aktien-tabelle td.name small { display: block; margin-left: 0; }
+.zelle.aktie { height: 36px; font-size: 12.5px; }
+.zelle.aktiv { box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .6); font-weight: 600; }
+th.aktiv { color: var(--text); font-weight: 700; }
+.grundlage ul { margin: 4px 0 8px; padding-left: 20px; font-size: 13px; }
+.grau { color: var(--text-2); }
+
+/* ---------- Top 30 ---------- */
+.karte-kopf { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.index-wahl { display: flex; align-items: center; gap: 8px; color: var(--text-2); font-size: 13px; }
+.index-wahl select { font: inherit; color: var(--text); background: var(--neutral); border: 1px solid var(--linie);
+  border-radius: var(--runde); padding: 5px 8px; }
+.index-wahl select:focus-visible { outline: 2px solid var(--akzent); outline-offset: 2px; }
+.top-tabelle { min-width: 640px; }
+.top-tabelle th:nth-child(2) { width: 26%; }
+.zelle.gesamt-wert { background: var(--neutral); color: var(--text); }
+
+/* ---------- Ladebalken ---------- */
+.ladebalken { position: sticky; top: 0; z-index: 5; background: var(--grund); padding: 10px 24px 8px;
+  border-bottom: 1px solid var(--linie); }
+.ladebalken-spur { height: 8px; border-radius: 4px; background: var(--neutral); overflow: hidden; }
+.ladebalken-fuellung { height: 100%; width: 0; border-radius: 4px; background: var(--akzent);
+  transition: width .45s ease; }
+.ladebalken-text { margin: 6px 0 0; font-size: 12.5px; color: var(--text-2); font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) { .ladebalken-fuellung { transition: none; } .zelle { transition: none; } }
