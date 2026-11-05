@@ -216,17 +216,39 @@ def kurssprung(reihe: pd.Series) -> bool:
     return bool((r > 3).any() or (r < -0.8).any())
 
 
-def auswerten(reihen: dict, liste: dict, stand: dict) -> dict:
-    """Entwicklung jeder Aktie über alle Zeiträume. Ohne aktuelle Kurse oder mit einem
+def trend(reihe: pd.Series) -> dict | None:
+    """Kennzahlen für die Momentum-Rangliste, in Handelstagen gezählt (ein Jahr = 252, ein
+    Monat = 21). Ohne ein volles Jahr Kurse gibt es keine Kennzahlen."""
+    if len(reihe) < 253:
+        return None
+    kurs = reihe.iloc[-1]
+    vor_monat = reihe.iloc[-22]
+    hoch = reihe.iloc[-252:].max()
+    tagesrenditen = reihe.iloc[-253:].pct_change().dropna()
+    runden = lambda v: round(float(v), 2)
+    return {
+        "zwoelf_ohne_letzten": runden((vor_monat / reihe.iloc[-253] - 1) * 100),
+        "sechs_ohne_letzten": runden((vor_monat / reihe.iloc[-127] - 1) * 100),
+        "schwankung": runden(tagesrenditen.std() * 252 ** 0.5 * 100),
+        "abstand_hoch": runden((kurs / hoch - 1) * 100),
+        "ueber_200": bool(kurs > reihe.iloc[-200:].mean()),
+        "durchschnitt_50_ueber_200": bool(reihe.iloc[-50:].mean() > reihe.iloc[-200:].mean()),
+    }
+
+
+def auswerten(tafeln: dict, liste: dict, stand: dict) -> dict:
+    """Entwicklung, Trendkennzahlen und Muster jeder Aktie. Ohne aktuelle Kurse oder mit einem
     Kurssprung (Datenfehler) fällt eine Aktie heraus und wird mit Grund aufgeführt."""
     from kurse import VERALTET_TAGE, ZEITRAEUME, entwicklung
+    import muster
     ergebnis = {}
     for region in stand["regionen"]:
         schluessel = region["schluessel"]
         juengster = pd.Timestamp(region["stand"]) if region["stand"] else None
         gezaehlt, heraus = [], []
         for m in liste.get(schluessel, []):
-            reihe = reihen.get(m["ticker"])
+            tafel = tafeln.get(m["ticker"])
+            reihe = tafel["Close"] if tafel is not None else None
             grund = None
             if reihe is None or len(reihe) < 2:
                 grund = "keine Kurse geliefert"
@@ -241,6 +263,10 @@ def auswerten(reihen: dict, liste: dict, stand: dict) -> dict:
                 heraus.append({**eintrag, "grund": grund})
                 continue
             eintrag["werte"] = {k: entwicklung(reihe, k) for k, _ in ZEITRAEUME}
+            eintrag["kurs"] = float(f"{reihe.iloc[-1]:.6g}")
+            eintrag["kurs_datum"] = reihe.index[-1].date().isoformat()
+            eintrag["trend"] = trend(reihe)
+            eintrag["muster"] = muster.auswerten(tafel)
             gezaehlt.append(eintrag)
         ergebnis[schluessel] = {"aktien": gezaehlt, "heraus": heraus,
                                 "quellen": liste.get("quellen", {}).get(schluessel, []),

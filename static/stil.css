@@ -9,6 +9,10 @@
   --gewinn: 46, 190, 120;    /* als RGB-Teile, damit die Deckkraft im Skript wählbar ist */
   --verlust: 230, 80, 80;
   --neutral: #1c222b;
+  --warnung: #f5c451;
+  --linie-50: #4c8dff;       /* Kurschart: 50-Tage-Durchschnitt */
+  --linie-150: #e8ecf1;      /* Kurschart: 150-Tage-Durchschnitt (30 Wochen) */
+  --pfeil: #f5c451;          /* Kurschart: Ausbruchstag */
   --runde: 6px;
   --schrift: "Segoe UI", system-ui, -apple-system, sans-serif;
   color-scheme: dark;
@@ -132,6 +136,62 @@ th.aktiv { color: var(--text); font-weight: 700; }
 .top-tabelle { min-width: 640px; }
 .top-tabelle th:nth-child(2) { width: 26%; }
 .zelle.gesamt-wert { background: var(--neutral); color: var(--text); }
+
+/* ---------- Momentum ---------- */
+.momentum-tabelle { min-width: 600px; }
+.momentum-tabelle th:nth-child(2) { width: 30%; }
+.zelle.kennzahl { background: var(--neutral); color: var(--text-2); }
+.momentum-aktien { min-width: 940px; }
+.momentum-aktien th:nth-child(2) { width: 22%; }
+.momentum-aktien th.muster { width: 210px; text-align: left; }
+.zufluss-tabelle { min-width: 760px; }
+.zufluss-tabelle th:nth-child(1) { width: 26%; }
+.zufluss-tabelle th.muster { width: 130px; text-align: left; }
+.zufluss-aktien { min-width: 820px; }
+.zufluss-aktien th:nth-child(2) { width: 26%; }
+.zufluss-aktien th.muster { width: 170px; text-align: left; }
+.abfluss, .test-hinweis { font-size: 12.5px; margin: 8px 0 0; }
+details.weitere { margin-top: 6px; }
+details.weitere summary { cursor: pointer; color: var(--text-2); font-size: 12.5px; padding: 4px 0; }
+td.muster { font-size: 12px; }
+td.muster .marke { display: block; width: fit-content; }
+td.muster .marke + .marke { margin-top: 3px; }
+.marke { display: inline-block; padding: 2px 7px; border-radius: 4px; background: var(--neutral);
+  color: var(--text-2); font-size: 11.5px; line-height: 1.4; }
+.marke.erfuellt { background: var(--akzent); color: #fff; font-weight: 600; }
+.marke.beobachten { border: 1px solid var(--akzent); color: var(--text); padding: 1px 6px; }
+.marke.warnung { color: var(--warnung); }
+tr.einstufung-erfuellt td { background-color: rgba(76, 141, 255, .10); }
+tr.einstufung-erfuellt td.rang { box-shadow: inset 3px 0 0 var(--akzent); color: var(--text); font-weight: 600; }
+tr.einstufung-beobachten td.rang { box-shadow: inset 3px 0 0 rgba(76, 141, 255, .45); }
+.charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+.chart { margin: 0; padding: 10px; background: var(--grund); border: 1px solid var(--linie); border-radius: 8px; min-width: 0; }
+.chart.einstufung-erfuellt { border-color: var(--akzent); box-shadow: 0 0 0 1px var(--akzent); }
+.chart figcaption { font-size: 13.5px; font-weight: 600; }
+.chart figcaption small { color: var(--text-2); font-weight: 400; margin-left: 4px; }
+.chart .platz { color: var(--text-2); }
+.chart-marken { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 8px; }
+.chart canvas { display: block; width: 100%; height: 210px; cursor: crosshair; }
+.chart-ablesen { margin: 4px 0 0; font-size: 11.5px; min-height: 1.4em; font-variant-numeric: tabular-nums; }
+.kauf-zeile { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.kauf-zeile button.kaufen { padding: 6px 16px; font-size: 13px; }
+.kauf-stand { font-size: 12px; color: var(--text-2); }
+.plus { color: rgb(var(--gewinn)); }
+.minus { color: rgb(var(--verlust)); }
+.kauf-tabelle { min-width: 720px; }
+.kauf-tabelle th:first-child { width: 28%; text-align: left; }
+.kauf-tabelle th:last-child { width: 100px; }
+.kauf-tabelle td { font-size: 13px; padding: 4px 6px; }
+.kauf-tabelle td.zahl { text-align: right; font-variant-numeric: tabular-nums; }
+.kauf-tabelle td small { display: block; color: var(--text-2); font-size: 11px; }
+.kauf-tabelle tfoot td { color: var(--text-2); font-size: 12.5px; }
+.kauf-tabelle tfoot .gesamt-wert .plus, .kauf-tabelle tfoot .gesamt-wert .minus { font-weight: 600; }
+button.entfernen { background: transparent; color: var(--text-2); border: 1px solid var(--linie); padding: 4px 10px; font-size: 12px; }
+button.entfernen:hover { color: var(--text); border-color: var(--text-2); filter: none; }
+.unsichtbar { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.regeln { margin: 14px 0 0; }
+.regeln ol { margin: 6px 0 10px; padding-left: 22px; font-size: 13px; line-height: 1.6; max-width: 110ch; }
+.regeln p { font-size: 13px; line-height: 1.6; max-width: 110ch; }
 
 /* ---------- Ladebalken ---------- */
 .ladebalken { position: sticky; top: 0; z-index: 5; background: var(--grund); padding: 10px 24px 8px;

@@ -45,6 +45,13 @@ jobs:
           key: mitglieder-${{ steps.monat.outputs.monat }}
           restore-keys: mitglieder-
 
+      # Branchen ändern sich kaum; je Lauf gespeichert, damit nur fehlende nachgefragt werden
+      - uses: actions/cache@v4
+        with:
+          path: ablage/branchen.json
+          key: branchen-${{ github.run_id }}
+          restore-keys: branchen-
+
       - name: Kurse holen und Seite bauen
         env:
           SEKTOR_ABLAGE: ablage

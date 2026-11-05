@@ -57,6 +57,7 @@ UNEINIG_ANTEIL = 0.25
 _sperre = threading.Lock()
 
 # Fortschritt des laufenden Aktualisierens, abgefragt über /api/fortschritt
+FELDER = ("Open", "High", "Low", "Close", "Volume")
 PAKET = 150  # Kürzel je Abruf bei Yahoo; kleinere Pakete melden öfter Fortschritt
 FORTSCHRITT = {"aktiv": False, "anteil": 0.0, "schritt": "", "beginn": None}
 
@@ -100,8 +101,8 @@ def entwicklung(reihe: pd.Series, schluessel: str) -> float | None:
 
 
 def _herunterladen(ticker: list[str], nachholen: set[str] | None = None,
-                   von: float = 0.0, bis: float = 1.0) -> dict[str, pd.Series]:
-    """Kursreihen je Kürzel, in Paketen zu PAKET Kürzeln; der Fortschritt läuft dabei von „von“
+                   von: float = 0.0, bis: float = 1.0) -> dict[str, pd.DataFrame]:
+    """Tageskurse (FELDER) je Kürzel, in Paketen zu PAKET Kürzeln; der Fortschritt läuft dabei von „von“
     bis „bis“. Fehlende Kürzel aus „nachholen“ werden einzeln ein zweites Mal abgefragt (für die
     Fonds; bei rund 1.400 Aktien wäre das zu langsam)."""
     import yfinance as yf
@@ -114,33 +115,36 @@ def _herunterladen(ticker: list[str], nachholen: set[str] | None = None,
                           progress=False, group_by="ticker", threads=True)
         ergebnis = {}
         for t in liste:
-            try:
-                reihe = roh[t]["Close"]
-            except (KeyError, TypeError):
-                try:
-                    reihe = roh["Close"]  # Einzelabruf ohne Tickerebene
-                except (KeyError, TypeError):
-                    continue
-            if isinstance(reihe, pd.DataFrame):
-                reihe = reihe.iloc[:, 0]
-            reihe = reihe.dropna()
-            reihe = reihe[reihe > 0]
-            if len(reihe):
-                reihe.index = pd.to_datetime(reihe.index).tz_localize(None).normalize()
-                ergebnis[t] = reihe.astype(float)
+            def spalte(feld):
+                for quelle in (lambda: roh[t][feld], lambda: roh[feld]):  # zweites: Einzelabruf ohne Tickerebene
+                    try:
+                        s = quelle()
+                    except (KeyError, TypeError):
+                        continue
+                    return s.iloc[:, 0] if isinstance(s, pd.DataFrame) else s
+                return None
+            felder = {f: spalte(f) for f in FELDER}
+            schluss = felder["Close"]
+            if schluss is None:
+                continue
+            tafel = pd.DataFrame({f: schluss if s is None else s for f, s in felder.items()})
+            tafel = tafel[tafel["Close"].notna() & (tafel["Close"] > 0)]
+            if len(tafel):
+                tafel.index = pd.to_datetime(tafel.index).tz_localize(None).normalize()
+                ergebnis[t] = tafel.astype(float)
         return ergebnis
 
-    reihen = {}
+    tafeln = {}
     for start in range(0, len(ticker), PAKET):
         melden(von + (bis - von) * start / len(ticker),
                f"Kurse laden: {start:,} von {len(ticker):,} Werten".replace(",", "."))
-        reihen.update(holen(ticker[start:start + PAKET]))
-    fehlend = [t for t in ticker if t not in reihen and (nachholen is None or t in nachholen)]
+        tafeln.update(holen(ticker[start:start + PAKET]))
+    fehlend = [t for t in ticker if t not in tafeln and (nachholen is None or t in nachholen)]
     if fehlend:  # zweiter Versuch einzeln – Yahoo lässt bei Sammelabrufen gelegentlich Werte fallen
         melden(bis, f"{len(fehlend)} fehlende Fonds einzeln nachfragen")
         for t in fehlend:
-            reihen.update(holen([t]))
-    return reihen
+            tafeln.update(holen([t]))
+    return tafeln
 
 
 def berechnen(reihen: dict[str, pd.Series], plan: dict) -> dict:
@@ -227,6 +231,9 @@ def _aktualisieren() -> dict:
     ticker = sorted({f["ticker"] for r in plan["regionen"] for g in GRUPPEN for s in r.get(g, []) for f in s["fonds"]}
                     | {r["gesamtmarkt"]["ticker"] for r in plan["regionen"]})
     import aktien  # hier, weil aktien.py seinerseits ABLAGE aus diesem Modul holt
+    import momentum
+    import muster
+    import zufluss
     try:
         liste = aktien.mitglieder()
     except Exception:  # ohne Mitgliederlisten trotzdem die Heatmaps liefern
@@ -234,12 +241,21 @@ def _aktualisieren() -> dict:
     aktien_ticker = {m["ticker"] for r in ("usa", "europa") for m in liste[r]} if liste else set()
     # Fonds zuerst, damit die Heatmaps auch bei einem Abbruch mitten in den Aktien stehen
     reihenfolge = sorted(ticker) + sorted(aktien_ticker - set(ticker))
-    reihen = _herunterladen(reihenfolge, nachholen=set(ticker), von=0.04, bis=0.9)
+    tafeln = _herunterladen(reihenfolge, nachholen=set(ticker), von=0.04, bis=0.9)
+    reihen = {t: tafel["Close"] for t, tafel in tafeln.items()}
     if not any(t in reihen for t in ticker):
         raise RuntimeError("Yahoo hat keine Kurse geliefert – Internetverbindung prüfen.")
     melden(0.92, "Entwicklung je Sektor, Thema und Aktie berechnen")
     stand = berechnen(reihen, plan)
-    stand["aktien"] = aktien.auswerten(reihen, liste, stand) if liste else None
+    stand["aktien"] = aktien.auswerten(tafeln, liste, stand) if liste else None
+    stand["momentum"] = momentum.auswerten(stand)
+    melden(0.94, "Geldzufluss je Sektor und Branche, Aktien vor dem Ausbruch")
+    stand["zufluss"] = zufluss.auswerten(tafeln, liste, stand) if liste else None
+    # Charts nur für die Aktien der beiden Listen, sonst wird die Seite zu groß
+    gezeigt = [a["ticker"] for r in stand["regionen"] for a in stand["momentum"][r["schluessel"]]["aktien"]]
+    gezeigt += [a["ticker"] for r in stand["regionen"]
+                for a in ((stand["zufluss"] or {}).get(r["schluessel"]) or {}).get("aktien", [])]
+    stand["charts"] = {t: muster.chart(tafeln[t]) for t in gezeigt}
     melden(0.97, "Stand speichern")
     ABLAGE.mkdir(parents=True, exist_ok=True)
     zwischen = STAND.with_suffix(".tmp")
@@ -251,7 +267,10 @@ def _aktualisieren() -> dict:
 def laden() -> dict | None:
     if not STAND.exists():
         return None
-    return json.loads(STAND.read_text(encoding="utf-8"))
+    stand = json.loads(STAND.read_text(encoding="utf-8"))
+    import momentum  # neu gerechnet, damit geänderte Regeln auch für einen abgelegten Stand gelten
+    stand["momentum"] = momentum.auswerten(stand)
+    return stand
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@ die Top 30 je Index – als eine Seite, die auch am Handy läuft.
 - Jeder Sektorwert ist der Median aus mehreren Indexfonds verschiedener Anbieter (`fonds.json`).
 - Aktien: S&P 500 und S&P 400 (USA) sowie 14 europäische Landesindizes; Mitgliederlisten von
   Wikipedia, Kurse von Yahoo über `yfinance`, inklusive Ausschüttungen.
+- Geldzufluss je Sektor und Branche nach festen Regeln, dazu Aktien vor dem Ausbruch (`zufluss.py`).
 - Die Seite wird an Börsentagen stündlich neu gebaut (`.github/workflows/aktualisieren.yml`).
 
 Vergangene Kursentwicklung, keine Anlageempfehlung. Kursdaten ohne Gewähr.
