@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sektor-Übersicht</title>
+<link rel="stylesheet" href="stil.css">
+<link rel="stylesheet" href="uebersicht.css">
+</head>
+<body>
+<header class="kopf">
+  <div>
+    <h1>Sektor-Übersicht</h1>
+    <p class="stand" id="stand">Lade Stand …</p>
+  </div>
+  <div class="kopf-rechts">
+    <span class="meldung" id="meldung" role="status"></span>
+    <button type="button" id="aktualisieren">Aktualisieren</button>
+  </div>
+</header>
+
+<main>
+  <div id="uebersicht"></div>
+  <p class="hinweis uebersicht-hinweis">
+    Kursentwicklung in Prozent, inklusive Ausschüttungen, jeweils in der Währung der Fonds. Jeder
+    Wert ist der Median der Indexfonds zu diesem Sektor. Die Farbe ist je Zeitraum über beide
+    Regionen gleich skaliert. Vergangene Kursentwicklung, keine Anlageempfehlung.
+  </p>
+</main>
+<script src="uebersicht.js"></script>
+</body>
+</html>

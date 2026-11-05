@@ -39,10 +39,37 @@ def erzeugen(stand: dict, web: bool = False) -> str:
     return seite
 
 
+def erzeugen_uebersicht(stand: dict, web: bool = False) -> str:
+    """Sektor-Übersicht: nur die Sektoren je Region, die Seite bleibt damit klein."""
+    knapp = {"abgerufen": stand["abgerufen"], "regionen": [
+        {"schluessel": r["schluessel"], "name": r["name"], "stand": r["stand"],
+         "sektoren": [{"name": s["name"], "werte": s["werte"]} for s in r["sektoren"]]}
+        for r in stand["regionen"]]}
+    seite = (STATIC / "uebersicht.html").read_text(encoding="utf-8")
+    stil = (STATIC / "stil.css").read_text(encoding="utf-8")
+    stil_eigen = (STATIC / "uebersicht.css").read_text(encoding="utf-8")
+    skript = (STATIC / "uebersicht.js").read_text(encoding="utf-8")
+    daten = json.dumps(knapp, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    modus = ' window.SEKTOR_MODUS = "web";' if web else ""
+    ersetzungen = [
+        ('<link rel="stylesheet" href="stil.css">', f"<style>\n{stil}\n</style>"),
+        ('<link rel="stylesheet" href="uebersicht.css">', f"<style>\n{stil_eigen}\n</style>"),
+        ('<script src="uebersicht.js"></script>',
+         f"<script>window.SEKTOR_STAND = {daten};{modus}</script>\n<script>\n{skript}\n</script>"),
+    ]
+    for alt, neu in ersetzungen:
+        if alt not in seite:
+            raise RuntimeError(f"In uebersicht.html fehlt: {alt}")
+        seite = seite.replace(alt, neu)
+    return seite
+
+
 def speichern(stand: dict, ziel: pathlib.Path | None = None, web: bool = False) -> pathlib.Path:
+    """Schreibt die Heatmap und daneben die Sektor-Übersicht als uebersicht.html."""
     ziel = ziel or kurse.ABLAGE / "Sektor-Heatmap.html"
     ziel.parent.mkdir(parents=True, exist_ok=True)
     ziel.write_text(erzeugen(stand, web), encoding="utf-8")
+    (ziel.parent / "uebersicht.html").write_text(erzeugen_uebersicht(stand, web), encoding="utf-8")
     return ziel
 
 
